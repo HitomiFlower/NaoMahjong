@@ -13,19 +13,19 @@ MonoBehaviour:
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
   AppSettings:
-    AppIdRealtime: 0265dc32-2c18-4c56-82a5-a799260c9bdb
+    AppIdRealtime: 0030cb43-1940-4fdf-a388-0bc43df8fd31
     AppIdChat: 
     AppIdVoice: 
     AppVersion: 1.0
     UseNameServer: 1
-    FixedRegion: ru
+    FixedRegion: 
     Server: 
     Port: 0
     Protocol: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
   StartInOfflineMode: 0
-  PunLogging: 2
+  PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
   RpcList:
@@ -34,6 +34,7 @@ MonoBehaviour:
   - RpcDrawTile
   - RpcGameEnd
   - RpcGamePrepare
+  - RpcGameStart
   - RpcKong
   - RpcOperationPerform
   - RpcPointTransfer
@@ -42,6 +43,5 @@ MonoBehaviour:
   - RpcRoundStart
   - RpcTsumo
   - RpcTurnEnd
-  - RpcGameStart
   DisableAutoOpenWizard: 1
-  ShowSettings: 1
+  ShowSettings: 0
