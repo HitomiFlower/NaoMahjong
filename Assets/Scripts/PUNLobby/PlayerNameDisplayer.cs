@@ -1,23 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Photon.Pun;
+﻿using Photon.Pun;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace PUNLobby
 {
-    [RequireComponent(typeof(Text))]
+    [RequireComponent(typeof(TextMeshProUGUI))]
     public class PlayerNameDisplayer : MonoBehaviour
     {
-        private Text text;
+        private TextMeshProUGUI _text;
 
         private void Start()
         {
-            text = GetComponent<Text>();
+            _text = GetComponent<TextMeshProUGUI>();
         }
         private void Update()
         {
-            text.text = PhotonNetwork.NickName;
+            _text.text = PhotonNetwork.NickName;
         }
     }
 }

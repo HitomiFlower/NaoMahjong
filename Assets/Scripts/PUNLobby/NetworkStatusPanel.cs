@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,12 +7,13 @@ namespace PUNLobby
 {
     public class NetworkStatusPanel : MonoBehaviour
     {
-        public Text statusText;
+        [SerializeField]
+        private TextMeshProUGUI _statusText;
 
         private void Update()
         {
-            if (statusText == null) return;
-            statusText.text = PhotonNetwork.NetworkClientState.ToString();
+            if (_statusText == null) return;
+            _statusText.text = PhotonNetwork.NetworkClientState.ToString();
         }
     }
 }
