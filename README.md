@@ -4,6 +4,8 @@ A working in progress internet Japanese mahjong game made with unity.
 
 The resources using in this game are fetched from the online web game [Majsoul](http://www.majsoul.com/0/).
 
+**Please play the game equal or higher than 1280 * 768 resolution.**
+
 ## Screen shots
 
 Lobby scene
