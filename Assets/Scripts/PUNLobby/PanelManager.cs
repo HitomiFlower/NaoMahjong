@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Photon.Realtime;
 using UnityEngine;
 
@@ -13,6 +14,14 @@ namespace PUNLobby
         public WarningPanel warningPanel;
         public WarningPanel infoPanel;
         private RectTransform currentPanel;
+
+        public void Awake()
+        {
+            LoginPanel.gameObject.SetActive(true);
+            LobbyPanel.gameObject.SetActive(false);
+            warningPanel.gameObject.SetActive(false);
+            infoPanel.gameObject.SetActive(false);
+        }
 
         public void ChangeTo(RectTransform newPanel)
         {
