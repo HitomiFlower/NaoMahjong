@@ -134,11 +134,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1264820097}
     m_Modifications:
-    - target: {fileID: 1730060579881997432, guid: 9abfd4a87b50cd347b50dc4352919ef1,
-        type: 3}
-      propertyPath: m_Name
-      value: SlotPanel1
-      objectReference: {fileID: 0}
     - target: {fileID: 1730060579881997431, guid: 9abfd4a87b50cd347b50dc4352919ef1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -243,6 +238,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1730060579881997432, guid: 9abfd4a87b50cd347b50dc4352919ef1,
+        type: 3}
+      propertyPath: m_Name
+      value: SlotPanel1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9abfd4a87b50cd347b50dc4352919ef1, type: 3}
@@ -1319,11 +1319,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1264820097}
     m_Modifications:
-    - target: {fileID: 1730060579881997432, guid: 9abfd4a87b50cd347b50dc4352919ef1,
-        type: 3}
-      propertyPath: m_Name
-      value: SlotPanel2
-      objectReference: {fileID: 0}
     - target: {fileID: 1730060579881997431, guid: 9abfd4a87b50cd347b50dc4352919ef1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1429,6 +1424,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1730060579881997432, guid: 9abfd4a87b50cd347b50dc4352919ef1,
+        type: 3}
+      propertyPath: m_Name
+      value: SlotPanel2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9abfd4a87b50cd347b50dc4352919ef1, type: 3}
 --- !u!224 &532695061 stripped
@@ -1487,8 +1487,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: RoomName
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a5512f468b18b1747937a4774c3a64f9, type: 2}
+  m_sharedMaterial: {fileID: -7529845132090167657, guid: a5512f468b18b1747937a4774c3a64f9,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2312,11 +2313,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1264820097}
     m_Modifications:
-    - target: {fileID: 1730060579881997432, guid: 9abfd4a87b50cd347b50dc4352919ef1,
-        type: 3}
-      propertyPath: m_Name
-      value: SlotPanel3
-      objectReference: {fileID: 0}
     - target: {fileID: 1730060579881997431, guid: 9abfd4a87b50cd347b50dc4352919ef1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2421,6 +2417,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1730060579881997432, guid: 9abfd4a87b50cd347b50dc4352919ef1,
+        type: 3}
+      propertyPath: m_Name
+      value: SlotPanel3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9abfd4a87b50cd347b50dc4352919ef1, type: 3}
@@ -3521,11 +3522,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1264820097}
     m_Modifications:
-    - target: {fileID: 1730060579881997432, guid: 9abfd4a87b50cd347b50dc4352919ef1,
-        type: 3}
-      propertyPath: m_Name
-      value: SlotPanel0
-      objectReference: {fileID: 0}
     - target: {fileID: 1730060579881997431, guid: 9abfd4a87b50cd347b50dc4352919ef1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3631,6 +3627,17 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1730060579881997432, guid: 9abfd4a87b50cd347b50dc4352919ef1,
+        type: 3}
+      propertyPath: m_Name
+      value: SlotPanel0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6786997132012986707, guid: 9abfd4a87b50cd347b50dc4352919ef1,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 70d9e92d44862ea40af7b3e5c892a5dc,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9abfd4a87b50cd347b50dc4352919ef1, type: 3}
 --- !u!114 &1730060579869495488 stripped
