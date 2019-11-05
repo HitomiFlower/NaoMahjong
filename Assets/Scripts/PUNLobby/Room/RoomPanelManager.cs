@@ -4,6 +4,7 @@ using Mahjong.Model;
 using Managers;
 using Photon.Pun;
 using Photon.Realtime;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
@@ -12,7 +13,8 @@ namespace PUNLobby.Room
 {
     public class RoomPanelManager : MonoBehaviour
     {
-        public Text roomTitleText;
+        [SerializeField]
+        private TextMeshProUGUI _roomTitleText;
         public RoomSlotPanel[] slots;
         public Button readyButton;
         public Button cancelButton;
@@ -33,7 +35,7 @@ namespace PUNLobby.Room
 
         public void SetTitle(string title)
         {
-            roomTitleText.text = title;
+            _roomTitleText.text = title;
         }
 
         public void SetPlayers(IList<Player> players)

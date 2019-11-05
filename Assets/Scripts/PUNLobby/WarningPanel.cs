@@ -1,18 +1,19 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace PUNLobby
 {
     public class WarningPanel : MonoBehaviour
     {
-        [SerializeField] private Text title;
-        [SerializeField] private RectTransform window;
-        [SerializeField] private Text text;
+        [SerializeField] private TextMeshProUGUI _title;
+        [SerializeField] private RectTransform _window;
+        [SerializeField] private TextMeshProUGUI _text;
         public void Show(int width, int height, string titleString, string content)
         {
-            title.text = titleString;
-            window.sizeDelta = new Vector2(width, height);
-            text.text = content;
+            _title.text = titleString;
+            _window.sizeDelta = new Vector2(width, height);
+            _text.text = content;
             gameObject.SetActive(true);
         }
         public void Show(int width, int height, string content)
