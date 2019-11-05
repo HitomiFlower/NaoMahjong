@@ -3,12 +3,14 @@
 A working in progress internet Japanese mahjong game made with unity.
 
 The resources using in this game are fetched from the online web game [Majsoul](http://www.majsoul.com/0/).
+
 The texture will be replaced in the future.
 
 **Please play the game equal or higher than 1280 * 768 resolution.**
 
-Unityバージョン:Unity 2019.3.0b9
-For I love the UI of 2019.3, the unity version will be updated to the stable version of 2019.3 in the future.
+Unity Version:Unity 2019.3.0b9. 
+
+I use the beta version for I love the UI of 2019.3. The unity version will be updated to the stable version of 2019.3 in the future.
 
 Here is the [todo list](https://github.com/HitomiFlower/NaoMahjong/issues/1) with a schedule. Thanks for any help.
 
