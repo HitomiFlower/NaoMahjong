@@ -1,36 +1,44 @@
 ﻿using Mahjong.Model;
 using Photon.Realtime;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace PUNLobby
 {
-    public class RoomEntry : MonoBehaviour
-    {
-        public Text roomNameText;
-        public RectTransform QTJStatus;
-        public Text playerStatusText;
-        public Button checkRuleButton;
-        public Button joinButton;
-        public void SetRoom(RoomInfo info)
-        {
-            var setting = (GameSetting)info.CustomProperties[SettingKeys.SETTING];
-            roomNameText.text = info.Name;
-            var isQTJ = setting == null ? false : setting.GameMode == GameMode.QTJ;
-            QTJStatus.gameObject.SetActive(isQTJ);
-            playerStatusText.text = $"{info.PlayerCount}/{info.MaxPlayers}";
-            checkRuleButton.onClick.RemoveAllListeners();
-            checkRuleButton.onClick.AddListener(() => CheckRules(setting));
-            joinButton.onClick.RemoveAllListeners();
-            joinButton.onClick.AddListener(() =>
-            {
-                Launcher.Instance.JoinRoom(info.Name);
-            });
-        }
+	public class RoomEntry : MonoBehaviour
+	{
+		[SerializeField]
+		private TextMeshProUGUI _roomNameText;
 
-        private void CheckRules(GameSetting setting)
-        {
-            Launcher.Instance.ShowRulePanel(setting);
-        }
-    }
+		[SerializeField]
+		private RectTransform _qtjStatus;
+
+		[SerializeField]
+		private TextMeshProUGUI _playerStatusText;
+
+		[SerializeField]
+		private Button _checkRuleButton;
+
+		[SerializeField]
+		private Button _joinButton;
+
+		public void SetRoom(RoomInfo info)
+		{
+			var setting = (GameSetting)info.CustomProperties[SettingKeys.SETTING];
+			_roomNameText.text = info.Name;
+			var isQTJ = setting != null && setting.GameMode == GameMode.QTJ;
+			_qtjStatus.gameObject.SetActive(isQTJ);
+			_playerStatusText.text = $"{info.PlayerCount}/{info.MaxPlayers}";
+			_checkRuleButton.onClick.RemoveAllListeners();
+			_checkRuleButton.onClick.AddListener(() => CheckRules(setting));
+			_joinButton.onClick.RemoveAllListeners();
+			_joinButton.onClick.AddListener(() => { Launcher.Instance.JoinRoom(info.Name); });
+		}
+
+		private void CheckRules(GameSetting setting)
+		{
+			Launcher.Instance.ShowRulePanel(setting);
+		}
+	}
 }

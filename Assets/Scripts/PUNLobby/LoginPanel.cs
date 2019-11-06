@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 using UnityEngine.UI;
 using Utils;
 
@@ -18,7 +19,7 @@ namespace PUNLobby
         public void Login()
         {
             var launcher = Launcher.Instance;
-            var playerName = nameInputField.text;
+            var playerName = PhotonNetwork.NickName;
             if (string.IsNullOrEmpty(playerName))
             {
                 launcher.PanelManager.warningPanel.Show(400, 200, "Please input a player name.");
