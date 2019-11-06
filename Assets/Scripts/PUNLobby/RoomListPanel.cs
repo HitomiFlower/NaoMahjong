@@ -16,7 +16,7 @@ namespace PUNLobby
 			// Resize the panel height by the room count
 			var size = contentParent.sizeDelta;
 			contentParent.sizeDelta = new Vector2(size.x, rooms.Count * height);
-			
+
 			for (int i = 0; i < rooms.Count; i++)
 			{
 				RoomEntry entry;
