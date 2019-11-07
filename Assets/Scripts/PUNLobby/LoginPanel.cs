@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
@@ -8,20 +9,20 @@ namespace PUNLobby
 	public class LoginPanel : MonoBehaviour
 	{
 		[SerializeField]
-		private InputField nameInputField;
+		private TMP_InputField nameInputField;
 
-		private const string LAST_LOGIN = "/last_login.txt";
+		private const string LastLogin = "/last_login.txt";
 
 		private void OnEnable()
 		{
-			var lastLoginName = SerializeUtility.LoadContentOrDefault(Application.persistentDataPath + LAST_LOGIN, "");
+			var lastLoginName = SerializeUtility.LoadContentOrDefault(Application.persistentDataPath + LastLogin, "");
 			nameInputField.text = lastLoginName;
 		}
 
 		public void Login()
 		{
 			var launcher = Launcher.Instance;
-			var playerName = PhotonNetwork.NickName;
+			var playerName = nameInputField.text;
 			if (string.IsNullOrEmpty(playerName))
 			{
 				launcher.PanelManager.warningPanel.Show(400, 200, "Please input a player name.");
@@ -29,7 +30,7 @@ namespace PUNLobby
 			}
 
 			launcher.Connect(playerName);
-			SerializeUtility.SaveContent(Application.persistentDataPath + LAST_LOGIN, playerName);
+			SerializeUtility.SaveContent(Application.persistentDataPath + LastLogin, playerName);
 			launcher.PanelManager.infoPanel.Show(400, 200, "Connecting...");
 		}
 

@@ -28,7 +28,7 @@ namespace PUNLobby
 			LoadSettings();
 			binders.ForEach(b => b.Target = gameSettings);
 			binders.ForEach(b => b?.ApplyBinds());
-			roomName = $"{PhotonNetwork.NickName}'s Room";
+			roomName = $"{PhotonNetwork.NickName}的房间";
 			roomNameInputField.text = roomName;
 		}
 

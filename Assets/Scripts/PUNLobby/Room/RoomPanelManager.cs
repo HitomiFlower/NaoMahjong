@@ -22,7 +22,8 @@ namespace PUNLobby.Room
 		public Button startButton;
 		public RulePanel rulePanel;
 		public WarningPanel warningPanel;
-		private IList<Player> players;
+		
+		private IList<Player> _players;
 
 		private void Start()
 		{
@@ -41,17 +42,17 @@ namespace PUNLobby.Room
 
 		public void SetPlayers(IList<Player> players)
 		{
-			this.players = players;
+			this._players = players;
 		}
 
 		private void ShowSlots()
 		{
 			int length = 0;
-			if (players != null) length = players.Count;
+			if (_players != null) length = _players.Count;
 			for (int i = 0; i < length; i++)
 			{
 				slots[i].gameObject.SetActive(true);
-				var player = players[i];
+				var player = _players[i];
 				var ready = player.GetCustomPropertyOrDefault<bool>(SettingKeys.READY, false);
 				slots[i].Set(player.IsMasterClient, player.NickName, ready);
 			}
@@ -70,6 +71,7 @@ namespace PUNLobby.Room
 
 		public void LeaveRoom()
 		{
+			Debug.Log("Leaving room");
 			PhotonNetwork.LeaveRoom();
 		}
 
@@ -107,7 +109,7 @@ namespace PUNLobby.Room
 
 		private bool CheckReadiness()
 		{
-			return players.All(p => p.IsMasterClient || p.GetCustomPropertyOrDefault<bool>(SettingKeys.READY, false));
+			return _players.All(p => p.IsMasterClient || p.GetCustomPropertyOrDefault<bool>(SettingKeys.READY, false));
 		}
 
 		private void SaveSettings(GameSetting gameSettings)

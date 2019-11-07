@@ -23,8 +23,9 @@ namespace PUNLobby
 		public SceneField roomScene;
 		public PanelManager PanelManager;
 		public RulePanel rulePanel;
-		private string gameVersion = "1.0";
-		private SceneTransitionManager transitionManager;
+		
+		private const string GameVersion = "1.1";
+		private SceneTransitionManager _transitionManager;
 
 		public override void OnEnable()
 		{
@@ -35,7 +36,7 @@ namespace PUNLobby
 			if (!PhotonNetwork.IsConnected)
 			{
 				// Set the App version before connecting
-				PhotonNetwork.PhotonServerSettings.AppSettings.AppVersion = gameVersion;
+				PhotonNetwork.PhotonServerSettings.AppSettings.AppVersion = GameVersion;
 				// Connect to the photon master-server. We use the settings saved in PhotonServerSettings (a .asset file in this project)
 				// PhotonNetwork.ConnectUsingSettings();
 				PanelManager.ChangeTo(PanelManager.LoginPanel);
@@ -45,7 +46,7 @@ namespace PUNLobby
 				PanelManager.ChangeTo(PanelManager.LobbyPanel);
 			}
 
-			transitionManager = GameObject.FindObjectOfType<SceneTransitionManager>();
+			_transitionManager = GameObject.FindObjectOfType<SceneTransitionManager>();
 		}
 
 		private void Start()
@@ -156,6 +157,7 @@ namespace PUNLobby
 		{
 			Debug.Log("OnJoinedLobby");
 			PanelManager.infoPanel.Close();
+			
 		}
 
 		public override void OnLeftLobby()
@@ -175,7 +177,7 @@ namespace PUNLobby
 		{
 			Debug.Log(
 				$"OnCreateRoomFailed got called. This can happen if the room exists (even if not visible). Message: {message}.");
-			transitionManager.FadeIn();
+			_transitionManager.FadeIn();
 			PanelManager.warningPanel.Show(400, 200,
 				"The room with same name already exists, please try again with another name.");
 		}
@@ -184,7 +186,7 @@ namespace PUNLobby
 		{
 			Debug.Log(
 				$"OnJoinRoomFailed got called. This can happen if the room is not existing or full or closed. Message: {message}");
-			transitionManager.FadeIn();
+			_transitionManager.FadeIn();
 			PanelManager.warningPanel.Show(400, 200,
 				"Fail to join the room. This can happen if the room is not existing or full or closed.");
 		}
@@ -193,7 +195,7 @@ namespace PUNLobby
 		{
 			Debug.Log(
 				$"OnJoinRandomFailed got called. This can happen if the room is not existing or full or closed. Message: {message}");
-			transitionManager.FadeIn();
+			_transitionManager.FadeIn();
 			PanelManager.warningPanel.Show(400, 200,
 				"Fail to join the room. This can happen if the room is not existing or full or closed.");
 		}
@@ -216,14 +218,14 @@ namespace PUNLobby
 
 		private IEnumerator CreatedRoomCoroutine(string roomName, RoomOptions roomOptions)
 		{
-			transitionManager.FadeOut();
+			_transitionManager.FadeOut();
 			yield return new WaitForSeconds(1f);
 			PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
 		}
 
 		private IEnumerator JoinRoomCoroutine(string name)
 		{
-			transitionManager.FadeOut();
+			_transitionManager.FadeOut();
 			yield return new WaitForSeconds(1f);
 			PhotonNetwork.JoinRoom(name);
 		}

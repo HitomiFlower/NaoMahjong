@@ -42,8 +42,9 @@ namespace PUNLobby.Room
 
 		public override void OnLeftRoom()
 		{
+			Debug.Log("Back to the lobby");
 			//We have left the Room, return back to the GameLobby
-			UnityEngine.SceneManagement.SceneManager.LoadScene(lobbyScene);
+			StartCoroutine(CoLeftRoom());
 		}
 
 		public override void OnMasterClientSwitched(Player newMasterClient)
@@ -74,10 +75,18 @@ namespace PUNLobby.Room
 			PhotonNetwork.LoadLevel(mahjongScene);
 		}
 
+		private IEnumerator CoLeftRoom()
+		{
+			var transition = FindObjectOfType<SceneTransitionManager>();
+			transition.FadeOut();
+			yield return new WaitForSeconds(1f);
+			UnityEngine.SceneManagement.SceneManager.LoadScene(lobbyScene);
+		}
+
 		[PunRPC]
 		public void RpcGameStart()
 		{
-			var transition = GameObject.FindObjectOfType<SceneTransitionManager>();
+			var transition = FindObjectOfType<SceneTransitionManager>();
 			transition.FadeOut();
 		}
 	}
