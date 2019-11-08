@@ -5,7 +5,7 @@ namespace Managers
 {
 	public class InputManager : MonoBehaviour
 	{
-		private const KeyCode ConsoleKey = KeyCode.BackQuote;
+		private const KeyCode ConsoleKey = KeyCode.Keypad0;
 		public DebugLogManager debugLogManager;
 
 		private void Start()

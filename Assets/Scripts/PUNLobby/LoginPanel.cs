@@ -1,4 +1,5 @@
-﻿using Photon.Pun;
+﻿using System;
+using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,17 +13,17 @@ namespace PUNLobby
 		private TMP_InputField nameInputField;
 
 		private const string LastLogin = "/last_login.txt";
-
+		
 		private void OnEnable()
 		{
 			var lastLoginName = SerializeUtility.LoadContentOrDefault(Application.persistentDataPath + LastLogin, "");
-			nameInputField.text = lastLoginName;
+			nameInputField.text = lastLoginName.Trim();
 		}
 
 		public void Login()
 		{
 			var launcher = Launcher.Instance;
-			var playerName = nameInputField.text;
+			var playerName = nameInputField.text.Trim();
 			if (string.IsNullOrEmpty(playerName))
 			{
 				launcher.PanelManager.warningPanel.Show(400, 200, "Please input a player name.");

@@ -69,7 +69,7 @@ namespace PUNLobby
 
 		public void SetPlayerName(string value)
 		{
-			PhotonNetwork.NickName = value;
+			PhotonNetwork.NickName = value.Trim();
 		}
 
 		public void CreateRoom()
