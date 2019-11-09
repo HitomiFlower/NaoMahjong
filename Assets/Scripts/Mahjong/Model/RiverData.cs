@@ -3,32 +3,32 @@ using System.Text;
 
 namespace Mahjong.Model
 {
-    [Serializable]
-    public struct RiverTile
-    {
-        public Tile Tile;
-        public bool IsRichi;
-        public bool IsGone;
+	[Serializable]
+	public struct RiverTile
+	{
+		public Tile Tile;
+		public bool IsRichi;
+		public bool IsGone;
 
-        public override string ToString()
-        {
-            var builder = new StringBuilder(Tile.ToString());
-            if (IsRichi)
-                builder.Append("R");
-            if (IsGone)
-                builder.Append("G");
-            return builder.ToString();
-        }
-    }
+		public override string ToString()
+		{
+			var builder = new StringBuilder(Tile.ToString());
+			if (IsRichi)
+				builder.Append("R");
+			if (IsGone)
+				builder.Append("G");
+			return builder.ToString();
+		}
+	}
 
-    [Serializable]
-    public struct RiverData
-    {
-        public RiverTile[] River;
+	[Serializable]
+	public struct RiverData
+	{
+		public RiverTile[] River;
 
-        public override string ToString()
-        {
-            return string.Join("", River);
-        }
-    }
+		public override string ToString()
+		{
+			return string.Join("", River);
+		}
+	}
 }

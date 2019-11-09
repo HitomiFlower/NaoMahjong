@@ -6,33 +6,35 @@ using UnityEngine;
 
 namespace GamePlay.Server.Controller.GameState
 {
-    public abstract class ServerState : IState
-    {
-        public ServerRoundStatus CurrentRoundStatus;
-        protected GameSetting gameSettings;
-        protected IList<int> players;
-        protected int totalPlayers;
-        public void OnStateEnter()
-        {
-            Debug.Log($"Server enters {GetType().Name}");
-            if (CurrentRoundStatus != null)
-            {
-                gameSettings = CurrentRoundStatus.GameSettings;
-                players = CurrentRoundStatus.PlayerActorNumbers;
-                totalPlayers = CurrentRoundStatus.TotalPlayers;
-            }
-            OnServerStateEnter();
-        }
+	public abstract class ServerState : IState
+	{
+		public ServerRoundStatus CurrentRoundStatus;
+		protected GameSetting gameSettings;
+		protected IList<int> players;
+		protected int totalPlayers;
 
-        public void OnStateExit()
-        {
-            Debug.Log($"Server exits {GetType().Name}");
-            OnServerStateExit();
-        }
+		public void OnStateEnter()
+		{
+			Debug.Log($"Server enters {GetType().Name}");
+			if (CurrentRoundStatus != null)
+			{
+				gameSettings = CurrentRoundStatus.GameSettings;
+				players = CurrentRoundStatus.PlayerActorNumbers;
+				totalPlayers = CurrentRoundStatus.TotalPlayers;
+			}
 
-        public abstract void OnServerStateEnter();
-        public abstract void OnServerStateExit();
+			OnServerStateEnter();
+		}
 
-        public abstract void OnStateUpdate();
-    }
+		public void OnStateExit()
+		{
+			Debug.Log($"Server exits {GetType().Name}");
+			OnServerStateExit();
+		}
+
+		public abstract void OnServerStateEnter();
+		public abstract void OnServerStateExit();
+
+		public abstract void OnStateUpdate();
+	}
 }

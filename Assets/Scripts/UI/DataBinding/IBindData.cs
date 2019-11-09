@@ -4,10 +4,15 @@ using UnityEngine;
 
 namespace UI.DataBinding
 {
-    public interface IBindData
-    {
-        object Target { get; set; }
-        void Apply();
-        void UpdateBind();
-    }
+	public interface IBindData
+	{
+		object Target
+		{
+			get;
+			set;
+		}
+
+		void Apply();
+		void UpdateBind();
+	}
 }

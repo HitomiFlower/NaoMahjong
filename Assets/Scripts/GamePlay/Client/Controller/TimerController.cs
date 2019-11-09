@@ -1,102 +1,99 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using MEC;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace GamePlay.Client.Controller
 {
-    public class TimerController : MonoBehaviour
-    {
-        public Image PlusImage;
-        public NumberPanelController BaseTimeController;
-        public NumberPanelController BonusTimeController;
-        private Coroutine currentTimerCoroutine = null;
-        private WaitForSeconds wait = new WaitForSeconds(1f);
-        private int mBaseTime;
-        private int mBonusTime;
+	public class TimerController : MonoBehaviour
+	{
+		public Image PlusImage;
+		public NumberPanelController BaseTimeController;
+		public NumberPanelController BonusTimeController;
 
-        public bool IsCountingDown => currentTimerCoroutine != null;
+		private CoroutineHandle _currentTimerCoroutine;
+		private int _mBaseTime;
+		private int _mBonusTime;
 
-        /// <summary>
-        /// Starts count down with the given time, invoke callback when time expires.
-        /// </summary>
-        /// <param name="baseTime"></param>
-        /// <param name="bonusTime"></param>
-        /// <param name="callback"></param>
-        public void StartCountDown(int baseTime, int bonusTime, UnityAction callback)
-        {
-            if (currentTimerCoroutine != null)
-            {
-                StopCoroutine(currentTimerCoroutine);
-                currentTimerCoroutine = null;
-            }
-            gameObject.SetActive(true);
-            mBaseTime = baseTime;
-            mBonusTime = bonusTime;
-            SetTime(mBaseTime, mBonusTime);
-            currentTimerCoroutine = StartCoroutine(CountDown(callback));
-        }
+		public bool IsCountingDown =>
+			Timing.CurrentCoroutine != default && _currentTimerCoroutine != Timing.CurrentCoroutine;
 
-        /// <summary>
-        /// Stops the count down immediately, return the bonus turn time left.
-        /// </summary>
-        /// <returns>The bonus time left</returns>
-        public int StopCountDown()
-        {
-            if (currentTimerCoroutine != null)
-            {
-                StopCoroutine(currentTimerCoroutine);
-                currentTimerCoroutine = null;
-            }
-            gameObject.SetActive(false);
-            return mBonusTime;
-        }
+		/// <summary>
+		/// Starts count down with the given time, invoke callback when time expires.
+		/// </summary>
+		/// <param name="baseTime"></param>
+		/// <param name="bonusTime"></param>
+		/// <param name="callback"></param>
+		public void StartCountDown(int baseTime, int bonusTime, UnityAction callback)
+		{
+			Timing.KillCoroutines(_currentTimerCoroutine);
 
-        private IEnumerator CountDown(UnityAction callback)
-        {
-            for (; mBaseTime > 0; mBaseTime--)
-            {
-                SetTime(mBaseTime, mBonusTime);
-                yield return wait;
-            }
+			gameObject.SetActive(true);
+			_mBaseTime = baseTime;
+			_mBonusTime = bonusTime;
+			SetTime(_mBaseTime, _mBonusTime);
+			_currentTimerCoroutine = Timing.RunCoroutine(CountDown(callback));
+		}
 
-            if (mBonusTime > 0)
-                for (; mBonusTime >= 0; mBonusTime--)
-                {
-                    SetTime(mBaseTime, mBonusTime);
-                    yield return wait;
-                }
+		/// <summary>
+		/// Stops the count down immediately, return the bonus turn time left.
+		/// </summary>
+		/// <returns>The bonus time left</returns>
+		public int StopCountDown()
+		{
+			Timing.KillCoroutines(_currentTimerCoroutine);
 
-            callback.Invoke();
-            gameObject.SetActive(false);
-            currentTimerCoroutine = null;
-        }
+			gameObject.SetActive(false);
+			return _mBonusTime;
+		}
 
-        private void SetTime(int baseTime, int bonusTime)
-        {
-            if (baseTime < 0) baseTime = 0;
+		private IEnumerator<float> CountDown(UnityAction callback)
+		{
+			for (; _mBaseTime > 0; _mBaseTime--)
+			{
+				SetTime(_mBaseTime, _mBonusTime);
+				yield return Timing.WaitForSeconds(1f);
+			}
 
-            if (bonusTime < 0) bonusTime = 0;
+			if (_mBonusTime > 0)
+				for (; _mBonusTime >= 0; _mBonusTime--)
+				{
+					SetTime(_mBaseTime, _mBonusTime);
+					yield return Timing.WaitForSeconds(1f);
+				}
 
-            if (baseTime == 0)
-            {
-                BaseTimeController.gameObject.SetActive(false);
-                PlusImage.gameObject.SetActive(false);
-            }
-            else
-            {
-                BaseTimeController.gameObject.SetActive(true);
-                PlusImage.gameObject.SetActive(true);
-                BaseTimeController.SetNumber(baseTime);
-            }
+			callback.Invoke();
+			gameObject.SetActive(false);
+		}
 
-            if (bonusTime == 0)
-            {
-                PlusImage.gameObject.SetActive(false);
-                BonusTimeController.gameObject.SetActive(false);
-                return;
-            }
-            BonusTimeController.SetNumber(bonusTime);
-        }
-    }
+		private void SetTime(int baseTime, int bonusTime)
+		{
+			if (baseTime < 0) baseTime = 0;
+
+			if (bonusTime < 0) bonusTime = 0;
+
+			if (baseTime == 0)
+			{
+				BaseTimeController.gameObject.SetActive(false);
+				PlusImage.gameObject.SetActive(false);
+			}
+			else
+			{
+				BaseTimeController.gameObject.SetActive(true);
+				PlusImage.gameObject.SetActive(true);
+				BaseTimeController.SetNumber(baseTime);
+			}
+
+			if (bonusTime == 0)
+			{
+				PlusImage.gameObject.SetActive(false);
+				BonusTimeController.gameObject.SetActive(false);
+				return;
+			}
+
+			BonusTimeController.SetNumber(bonusTime);
+		}
+	}
 }
