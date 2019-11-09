@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Mahjong.Logic;
 using Mahjong.Model;
+using MEC;
 using UnityEngine;
 
 
@@ -26,7 +27,6 @@ namespace GamePlay.Client.View
 		private Transform lastDrawTransform;
 		private TileInstance lastDrawInstance;
 		private bool discarding = false;
-		private WaitForSeconds discardingWait = new WaitForSeconds(MahjongConstants.PlayerHandTilesSortDelay);
 
 		private void OnEnable()
 		{
@@ -95,12 +95,12 @@ namespace GamePlay.Client.View
 				handTileTransforms[tileIndex].gameObject.SetActive(false);
 			}
 
-			StartCoroutine(StopDiscarding());
+			Timing.RunCoroutine(StopDiscarding());
 		}
 
-		private IEnumerator StopDiscarding()
+		private IEnumerator<float> StopDiscarding()
 		{
-			yield return discardingWait;
+			yield return Timing.WaitForSeconds(MahjongConstants.PlayerHandTilesSortDelay);
 			discarding = false;
 		}
 

@@ -54,13 +54,19 @@ namespace GamePlay.Client.View.Elements
 		{
 			interactable = false;
 			rect.DOAnchorPosY(0, AnimationDuration);
-			image.DOColor(Color.gray, AnimationDuration);
+			if (image != null)
+			{
+				image.DOColor(Color.gray, AnimationDuration);
+			}
 		}
 
 		public void TurnOn()
 		{
 			interactable = true;
-			image.DOColor(Color.white, AnimationDuration);
+			if (image != null)
+			{
+				image.DOColor(Color.white, AnimationDuration);
+			}
 		}
 
 		public void SetLock(bool locked)

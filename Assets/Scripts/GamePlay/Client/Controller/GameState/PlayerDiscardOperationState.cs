@@ -1,7 +1,9 @@
 using System.Collections;
+using System.Collections.Generic;
 using GamePlay.Client.View;
 using GamePlay.Server.Model;
 using Mahjong.Model;
+using MEC;
 using UnityEngine;
 
 namespace GamePlay.Client.Controller.GameState
@@ -53,16 +55,16 @@ namespace GamePlay.Client.Controller.GameState
 			CurrentRoundStatus.SetZhenting(Zhenting);
 			if (IsRichiing)
 				controller.ShowEffect(placeIndex, PlayerEffectManager.Type.Richi);
-			controller.StartCoroutine(UpdateHandData(placeIndex, DiscardingLastDraw, Tile, Rivers));
+			Timing.RunCoroutine(UpdateHandData(placeIndex, DiscardingLastDraw, Tile, Rivers));
 		}
 
-		private IEnumerator UpdateHandData(int currentPlaceIndex, bool discardingLastDraw, Tile tile,
+		private IEnumerator<float> UpdateHandData(int currentPlaceIndex, bool discardingLastDraw, Tile tile,
 			RiverData[] rivers)
 		{
 			CurrentRoundStatus.ClearLastDraws();
 			controller.TableTilesManager.DiscardTile(currentPlaceIndex, discardingLastDraw);
 			Debug.Log($"Playing player (place: {currentPlaceIndex}) discarding animation");
-			yield return new WaitForEndOfFrame();
+			yield return Timing.WaitForOneFrame;
 			for (int playerIndex = 0; playerIndex < rivers.Length; playerIndex++)
 			{
 				int placeIndex = CurrentRoundStatus.GetPlaceIndex(playerIndex);

@@ -9,6 +9,7 @@ using System.Reflection;
 using ExitGames.Client.Photon;
 using Managers;
 using System.Collections;
+using MEC;
 
 namespace PUNLobby
 {
@@ -46,11 +47,12 @@ namespace PUNLobby
 				PanelManager.ChangeTo(PanelManager.LobbyPanel);
 			}
 
-			_transitionManager = GameObject.FindObjectOfType<SceneTransitionManager>();
+			_transitionManager = FindObjectOfType<SceneTransitionManager>();
 		}
 
 		private void Start()
 		{
+			DG.Tweening.DOTween.SetTweensCapacity(300, 50);
 			RegisterTypes();
 		}
 
@@ -108,13 +110,13 @@ namespace PUNLobby
 					},
 					CustomRoomPropertiesForLobby = new string[] {SettingKeys.SETTING}
 				};
-				StartCoroutine(CreatedRoomCoroutine(roomName, roomOptions));
+				Timing.RunCoroutine(CreatedRoomCoroutine(roomName, roomOptions), Segment.FixedUpdate);
 			}
 		}
 
 		public void JoinRoom(string name)
 		{
-			StartCoroutine(JoinRoomCoroutine(name));
+			var courtine = Timing.RunCoroutine(JoinRoomCoroutine(name));
 		}
 
 		public void Refresh()
@@ -216,17 +218,17 @@ namespace PUNLobby
 			rulePanel.Show(gameSetting);
 		}
 
-		private IEnumerator CreatedRoomCoroutine(string roomName, RoomOptions roomOptions)
+		private IEnumerator<float> CreatedRoomCoroutine(string roomName, RoomOptions roomOptions)
 		{
 			_transitionManager.FadeOut();
-			yield return new WaitForSeconds(1f);
+			yield return Timing.WaitForSeconds(1f);
 			PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
 		}
 
-		private IEnumerator JoinRoomCoroutine(string name)
+		private IEnumerator<float> JoinRoomCoroutine(string name)
 		{
 			_transitionManager.FadeOut();
-			yield return new WaitForSeconds(1f);
+			yield return Timing.WaitForSeconds(1f);
 			PhotonNetwork.JoinRoom(name);
 		}
 	}

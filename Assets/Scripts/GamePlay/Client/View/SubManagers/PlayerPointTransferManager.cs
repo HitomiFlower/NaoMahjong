@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using GamePlay.Client.Controller;
+using MEC;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -48,7 +49,7 @@ namespace GamePlay.Client.View.SubManagers
 				SetArrow(transfer);
 			}
 
-			StartCoroutine(SetAnimation(point, totalTransfer));
+			Timing.RunCoroutine(SetAnimation(point, totalTransfer));
 		}
 
 		public void SetPlace(int place)
@@ -81,9 +82,10 @@ namespace GamePlay.Client.View.SubManagers
 		private const float Duration = 1.5f;
 		private const int Ticks = 50;
 
-		private IEnumerator SetAnimation(int point, int totalTransfer)
+		private IEnumerator<float> SetAnimation(int point, int totalTransfer)
 		{
-			var waiting = new WaitForSeconds(Duration / Ticks);
+			float waiting = Duration / Ticks;
+			//var waiting = new WaitForSeconds(Duration / Ticks);
 			int gap = totalTransfer / Ticks;
 			int currentPoint = point - totalTransfer;
 			for (int tick = 0; tick <= Ticks; tick++)
@@ -91,7 +93,7 @@ namespace GamePlay.Client.View.SubManagers
 				PointController.SetNumber(currentPoint);
 				ChangeController.SetNumber(point - currentPoint);
 				currentPoint += gap;
-				yield return waiting;
+				yield return Timing.WaitForSeconds(waiting);
 			}
 
 			PointController.SetNumber(point);

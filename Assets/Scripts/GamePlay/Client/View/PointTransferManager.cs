@@ -10,6 +10,7 @@ using GamePlay.Client.Controller;
 using static GamePlay.Client.View.SubManagers.PlayerPointTransferManager;
 using GamePlay.Server.Model;
 using System.Collections;
+using MEC;
 
 namespace GamePlay.Client.View
 {
@@ -56,7 +57,7 @@ namespace GamePlay.Client.View
 				SubManagers[placeIndex].SetPlace(place);
 			}
 
-			StartCoroutine(ShowPlacesAnimation(CurrentRoundStatus, places));
+			Timing.RunCoroutine(ShowPlacesAnimation(CurrentRoundStatus, places));
 			// count down
 			ConfirmButton.onClick.RemoveAllListeners();
 			ConfirmButton.onClick.AddListener(() =>
@@ -68,16 +69,15 @@ namespace GamePlay.Client.View
 		}
 
 		private const float Gap = 1f;
-		private WaitForSeconds waiting = new WaitForSeconds(Gap);
 
-		private IEnumerator ShowPlacesAnimation(ClientRoundStatus status, int[] places)
+		private IEnumerator<float> ShowPlacesAnimation(ClientRoundStatus status, int[] places)
 		{
 			for (int i = 0; i < places.Length; i++)
 			{
 				var playerIndex = places[i];
 				var placeIndex = status.GetPlaceIndex(playerIndex);
 				SubManagers[placeIndex].ShowPlace();
-				yield return waiting;
+				yield return Timing.WaitForSeconds(Gap);
 			}
 		}
 

@@ -4,6 +4,7 @@ using System.Linq;
 using Mahjong.Model;
 using UnityEngine;
 using Utils;
+using MEC;
 
 namespace Managers
 {
@@ -25,15 +26,15 @@ namespace Managers
 		{
 			Instance = this;
 			DontDestroyOnLoad(gameObject);
-			StartCoroutine(LoadSpritesAsync());
+			Timing.RunCoroutine(LoadSpritesAsync());
 		}
 
-		private IEnumerator LoadSpritesAsync()
+		private IEnumerator<float> LoadSpritesAsync()
 		{
 			LoadDefaultSettings();
-			yield return null;
+			yield return Timing.WaitForOneFrame;
 			tileSprites = Resources.LoadAll<Sprite>("Textures/UIElements/tile_ui");
-			yield return null;
+			yield return Timing.WaitForOneFrame;
 			spriteDict = tileSprites.ToDictionary(sprite => sprite.name);
 			for (int i = 0; i < TileSuits.Length; i++)
 			{
@@ -44,7 +45,7 @@ namespace Managers
 					if (texture != null) textureDict.Add(key, texture);
 				}
 
-				yield return null;
+				yield return Timing.WaitForOneFrame;
 			}
 		}
 
@@ -77,23 +78,23 @@ namespace Managers
 			return index + tile.Suit.ToString().ToLower();
 		}
 
-		private const string Default_Settings_2 = "Data/default_settings_2";
-		private const string Default_Settings_3 = "Data/default_settings_3";
-		private const string Default_Settings_4 = "Data/default_settings_4";
-		public const string Last_Settings = "/settings.json";
-		private readonly IDictionary<GamePlayers, string> defaultSettings = new Dictionary<GamePlayers, string>();
+		private const string DefaultSettings2 = "Data/default_settings_2";
+		private const string DefaultSettings3 = "Data/default_settings_3";
+		private const string DefaultSettings4 = "Data/default_settings_4";
+		private const string LastSettings = "/settings.json";
+		private readonly IDictionary<GamePlayers, string> _defaultSettings = new Dictionary<GamePlayers, string>();
 
 		private void LoadDefaultSettings()
 		{
-			defaultSettings.Clear();
-			defaultSettings.Add(GamePlayers.Two, Resources.Load<TextAsset>(Default_Settings_2).text);
-			defaultSettings.Add(GamePlayers.Three, Resources.Load<TextAsset>(Default_Settings_3).text);
-			defaultSettings.Add(GamePlayers.Four, Resources.Load<TextAsset>(Default_Settings_4).text);
+			_defaultSettings.Clear();
+			_defaultSettings.Add(GamePlayers.Two, Resources.Load<TextAsset>(DefaultSettings2).text);
+			_defaultSettings.Add(GamePlayers.Three, Resources.Load<TextAsset>(DefaultSettings3).text);
+			_defaultSettings.Add(GamePlayers.Four, Resources.Load<TextAsset>(DefaultSettings4).text);
 		}
 
 		public void LoadSettings(out GameSetting gameSetting)
 		{
-			gameSetting = SerializeUtility.Load<GameSetting>(Last_Settings, defaultSettings[GamePlayers.Four]);
+			gameSetting = SerializeUtility.Load<GameSetting>(LastSettings, _defaultSettings[GamePlayers.Four]);
 		}
 
 		public void SaveSettings(object setting, string path)
@@ -103,13 +104,13 @@ namespace Managers
 
 		public void SaveSettings(GameSetting gameSetting)
 		{
-			SaveSettings(gameSetting, Last_Settings);
+			SaveSettings(gameSetting, LastSettings);
 		}
 
 		public void ResetSettings(GameSetting gameSetting)
 		{
 			Debug.Log("Reset to corresponding default settings");
-			var setting = defaultSettings[gameSetting.GamePlayers];
+			var setting = _defaultSettings[gameSetting.GamePlayers];
 			JsonUtility.FromJsonOverwrite(setting, gameSetting);
 		}
 	}

@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using MEC;
 using System.Linq;
 using GamePlay.Client.View;
 using GamePlay.Server.Model;
@@ -68,19 +70,19 @@ namespace GamePlay.Client.Controller.GameState
 		private void HandleRong(int placeIndex, OutTurnOperation operation)
 		{
 			controller.ShowEffect(placeIndex, PlayerEffectManager.GetAnimationType(operation.Type));
-			controller.StartCoroutine(controller.RevealHandTiles(placeIndex, operation.HandData));
+			Timing.RunCoroutine(controller.RevealHandTiles(placeIndex, operation.HandData));
 		}
 
 		private void HandleRoundDraw(OutTurnOperation operation)
 		{
 			// controller.RoundDrawManager.SetDrawType(operation.RoundDrawType);
-			controller.StartCoroutine(ShowRoundDrawEffect(operation.RoundDrawType));
+			Timing.RunCoroutine(ShowRoundDrawEffect(operation.RoundDrawType));
 		}
 
-		private IEnumerator ShowRoundDrawEffect(RoundDrawType type)
+		private IEnumerator<float> ShowRoundDrawEffect(RoundDrawType type)
 		{
 			controller.RoundDrawManager.SetDrawType(type);
-			yield return new WaitForSeconds(2);
+			yield return Timing.WaitForSeconds(2);
 			controller.RoundDrawManager.Fade(type);
 		}
 

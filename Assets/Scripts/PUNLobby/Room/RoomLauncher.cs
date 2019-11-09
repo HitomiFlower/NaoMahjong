@@ -1,9 +1,11 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using Managers;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 using Utils;
+using MEC;
 
 namespace PUNLobby.Room
 {
@@ -44,7 +46,7 @@ namespace PUNLobby.Room
 		{
 			Debug.Log("Back to the lobby");
 			//We have left the Room, return back to the GameLobby
-			StartCoroutine(CoLeftRoom());
+			Timing.RunCoroutine(CoLeftRoom());
 		}
 
 		public override void OnMasterClientSwitched(Player newMasterClient)
@@ -65,21 +67,21 @@ namespace PUNLobby.Room
 
 		public void GameStart()
 		{
-			StartCoroutine(GameStartCoroutine());
+			Timing.RunCoroutine(GameStartCoroutine());
 		}
 
-		private IEnumerator GameStartCoroutine()
+		private IEnumerator<float> GameStartCoroutine()
 		{
 			photonView.RPC("RpcGameStart", RpcTarget.All, new object[0]);
-			yield return new WaitForSeconds(1.25f);
+			yield return Timing.WaitForSeconds(1.25f);
 			PhotonNetwork.LoadLevel(mahjongScene);
 		}
 
-		private IEnumerator CoLeftRoom()
+		private IEnumerator<float> CoLeftRoom()
 		{
 			var transition = FindObjectOfType<SceneTransitionManager>();
 			transition.FadeOut();
-			yield return new WaitForSeconds(1f);
+			yield return Timing.WaitForSeconds(1f);
 			UnityEngine.SceneManagement.SceneManager.LoadScene(lobbyScene);
 		}
 

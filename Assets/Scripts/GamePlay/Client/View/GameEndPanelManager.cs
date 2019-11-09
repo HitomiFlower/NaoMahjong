@@ -1,6 +1,8 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using GamePlay.Client.Controller;
 using GamePlay.Client.View.SubManagers;
+using MEC;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -24,15 +26,15 @@ namespace GamePlay.Client.View
 				PlaceManagers[i].SetPoints(playerNames[playerIndex], playerPoints[playerIndex], i);
 			}
 
-			StartCoroutine(ShowAnimation(playerPlaces.Length));
+			Timing.RunCoroutine(ShowAnimation(playerPlaces.Length));
 		}
 
-		private IEnumerator ShowAnimation(int totalPlayers)
+		private IEnumerator<float> ShowAnimation(int totalPlayers)
 		{
 			for (int i = 0; i < totalPlayers; i++)
 			{
 				var duration = PlaceManagers[i].Show();
-				yield return new WaitForSeconds(duration);
+				yield return Timing.WaitForSeconds(duration);
 			}
 		}
 

@@ -7,6 +7,7 @@ using Utils;
 using DG.Tweening;
 using Mahjong.Model;
 using Mahjong.Logic;
+using MEC;
 
 namespace GamePlay.Client.View.SubManagers
 {
@@ -27,13 +28,14 @@ namespace GamePlay.Client.View.SubManagers
 			gameObject.SetActive(false);
 		}
 
-		public IEnumerator SetPointInfo(PointInfo pointInfo, int totalPoints, bool richi)
+		public IEnumerator<float> SetPointInfo(PointInfo pointInfo, int totalPoints, bool richi)
 		{
 			gameObject.SetActive(true);
-			yield return waiting;
-			yield return AddYakuEntries(pointInfo, richi);
+			yield return Timing.WaitForSeconds(MahjongConstants.SummaryPanelDelayTime);
+			//yield return AddYakuEntries(pointInfo, richi);
+			yield return Timing.WaitUntilDone(Timing.RunCoroutine(AddYakuEntries(pointInfo, richi)));
 			ShowFuAndFan(pointInfo);
-			yield return waiting;
+			yield return Timing.WaitForSeconds(MahjongConstants.SummaryPanelDelayTime);
 			ShowTotalPoints(totalPoints);
 		}
 
@@ -66,7 +68,7 @@ namespace GamePlay.Client.View.SubManagers
 			rect.DOScale(new Vector3(1, 1, 1), AnimationDuration).SetEase(Ease.OutQuad);
 		}
 
-		private IEnumerator AddYakuEntries(PointInfo pointInfo, bool richi)
+		private IEnumerator<float> AddYakuEntries(PointInfo pointInfo, bool richi)
 		{
 			var entries = GetYakuEntries(pointInfo, richi, YakuItems);
 			Debug.Log($"YakuItem count: {entries.Count}");
@@ -77,7 +79,7 @@ namespace GamePlay.Client.View.SubManagers
 				int row = i % rows;
 				int col = i / rows;
 				AddEntry(entries[i], row, col, rows);
-				yield return waiting;
+				yield return Timing.WaitForSeconds(MahjongConstants.SummaryPanelDelayTime);
 			}
 		}
 

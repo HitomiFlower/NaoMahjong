@@ -1,8 +1,10 @@
 using System.Collections;
+using System.Collections.Generic;
 using GamePlay.Client.Model;
 using GamePlay.Client.View;
 using GamePlay.Server.Model;
 using Mahjong.Model;
+using MEC;
 using UnityEngine;
 
 namespace GamePlay.Client.Controller.GameState
@@ -41,14 +43,14 @@ namespace GamePlay.Client.Controller.GameState
 				PlayerName = TsumoPlayerName
 			};
 			// reveal hand tiles
-			controller.StartCoroutine(controller.RevealHandTiles(placeIndex, TsumoHandData));
-			controller.StartCoroutine(ShowAnimations(placeIndex, data));
+			Timing.RunCoroutine(controller.RevealHandTiles(placeIndex, TsumoHandData));
+			Timing.RunCoroutine(ShowAnimations(placeIndex, data));
 		}
 
-		private IEnumerator ShowAnimations(int placeIndex, SummaryPanelData data)
+		private IEnumerator<float> ShowAnimations(int placeIndex, SummaryPanelData data)
 		{
 			var duration = controller.ShowEffect(placeIndex, PlayerEffectManager.Type.Tsumo);
-			yield return new WaitForSeconds(duration);
+			yield return Timing.WaitForSeconds(duration);
 			controller.PointSummaryPanelManager.ShowPanel(data, () =>
 			{
 				Debug.Log("Sending readiness message");

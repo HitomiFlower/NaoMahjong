@@ -1,10 +1,12 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using GamePlay.Client.Model;
 using GamePlay.Client.View;
 using GamePlay.Server.Model;
 using Mahjong.Logic;
 using Mahjong.Model;
+using MEC;
 using UnityEngine;
 
 namespace GamePlay.Client.Controller
@@ -35,9 +37,6 @@ namespace GamePlay.Client.Controller
 		public GameEndPanelManager GameEndPanelManager;
 		public LocalSettingManager LocalSettingManager;
 		private ClientRoundStatus CurrentRoundStatus;
-
-		private WaitForSeconds waitAutoDiscardAfterRichi =
-			new WaitForSeconds(MahjongConstants.AutoDiscardDelayAfterRichi);
 
 		private void OnEnable()
 		{
@@ -73,7 +72,7 @@ namespace GamePlay.Client.Controller
 			if ((settings.Qie || richied) && operations.All(op => op.Type == InTurnOperationType.Discard))
 			{
 				if (richied) HandPanelManager.LockTiles();
-				StartCoroutine(AutoDiscard(lastDraw, bonusTurnTime));
+				Timing.RunCoroutine(AutoDiscard(lastDraw, bonusTurnTime));
 				InTurnPanelManager.Close();
 				return;
 			}
@@ -103,9 +102,9 @@ namespace GamePlay.Client.Controller
 			});
 		}
 
-		private IEnumerator AutoDiscard(Tile tile, int bonusTimeLeft)
+		private IEnumerator<float> AutoDiscard(Tile tile, int bonusTimeLeft)
 		{
-			yield return waitAutoDiscardAfterRichi;
+			yield return Timing.WaitForSeconds(MahjongConstants.AutoDiscardDelayAfterRichi);
 			ClientBehaviour.Instance.OnDiscardTile(tile, true, bonusTimeLeft);
 		}
 
@@ -167,9 +166,9 @@ namespace GamePlay.Client.Controller
 			return PlayerEffectManager.ShowEffect(placeIndex, type);
 		}
 
-		public IEnumerator RevealHandTiles(int placeIndex, PlayerHandData handData)
+		public IEnumerator<float> RevealHandTiles(int placeIndex, PlayerHandData handData)
 		{
-			yield return new WaitForSeconds(MahjongConstants.HandTilesRevealDelay);
+			yield return Timing.WaitForSeconds(MahjongConstants.HandTilesRevealDelay);
 			TableTilesManager.OpenUp(placeIndex);
 			TableTilesManager.SetHandTiles(placeIndex, handData.HandTiles);
 		}

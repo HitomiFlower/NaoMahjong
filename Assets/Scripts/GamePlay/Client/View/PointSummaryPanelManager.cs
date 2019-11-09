@@ -1,9 +1,11 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using GamePlay.Client.Controller;
 using GamePlay.Client.Model;
 using GamePlay.Client.View.SubManagers;
 using Mahjong.Logic;
 using Mahjong.Model;
+using MEC;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -20,7 +22,6 @@ namespace GamePlay.Client.View
 		public YakuRankManager YakuRankManager;
 		public Button ConfirmButton;
 		public CountDownController ConfirmCountDownController;
-		private WaitForSeconds waiting = new WaitForSeconds(MahjongConstants.SummaryPanelDelayTime);
 
 		public void ShowPanel(SummaryPanelData data, UnityAction callback)
 		{
@@ -37,13 +38,14 @@ namespace GamePlay.Client.View
 			var uraDora = data.HandInfo.IsRichi ? data.HandInfo.UraDoraIndicators : null;
 			DoraPanelManager.SetDoraIndicators(data.HandInfo.DoraIndicators, uraDora);
 			// yaku list, total point and yaku rank
-			StartCoroutine(YakuListCoroutine(data.PointInfo, data.TotalPoints, data.HandInfo.IsRichi, callback));
+			Timing.RunCoroutine(YakuListCoroutine(data.PointInfo, data.TotalPoints, data.HandInfo.IsRichi, callback));
 		}
 
-		private IEnumerator YakuListCoroutine(PointInfo point, int totalPoints, bool richi, UnityAction callback)
+		private IEnumerator<float> YakuListCoroutine(PointInfo point, int totalPoints, bool richi, UnityAction callback)
 		{
-			yield return PointInfoManager.SetPointInfo(point, totalPoints, richi);
-			yield return waiting;
+			yield return Timing.WaitUntilDone(
+				Timing.RunCoroutine(PointInfoManager.SetPointInfo(point, totalPoints, richi)));
+			yield return Timing.WaitForSeconds(MahjongConstants.SummaryPanelDelayTime);
 			YakuRankManager.ShowYakuRank(point);
 			ConfirmCountDownController.StartCountDown(MahjongConstants.SummaryPanelWaitingTime, callback);
 		}

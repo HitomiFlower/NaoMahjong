@@ -1,5 +1,7 @@
 using System.Collections;
+using System.Collections.Generic;
 using Managers;
+using MEC;
 using UnityEngine;
 
 namespace GamePlay.Client.Controller.GameState
@@ -14,17 +16,17 @@ namespace GamePlay.Client.Controller.GameState
 		{
 			controller.GameEndPanelManager.SetPoints(PlayerNames, Points, Places, () =>
 			{
-				controller.StartCoroutine(BackToLobby());
+				Timing.RunCoroutine(BackToLobby());
 				// todo -- record points (maybe)?
 			});
 		}
 
-		private IEnumerator BackToLobby()
+		private IEnumerator<float> BackToLobby()
 		{
 			Debug.Log("Back to lobby");
 			var transition = GameObject.FindObjectOfType<SceneTransitionManager>();
 			transition.FadeOut();
-			yield return null;
+			yield return Timing.WaitForOneFrame;
 			// todo -- button for "back to lobby" or "back to room"
 		}
 
