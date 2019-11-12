@@ -116,7 +116,7 @@ namespace PUNLobby
 
 		public void JoinRoom(string name)
 		{
-			var courtine = Timing.RunCoroutine(JoinRoomCoroutine(name));
+			Timing.RunCoroutine(JoinRoomCoroutine(name));
 		}
 
 		public void Refresh()

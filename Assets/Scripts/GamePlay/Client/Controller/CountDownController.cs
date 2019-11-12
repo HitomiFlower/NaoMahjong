@@ -12,9 +12,7 @@ namespace GamePlay.Client.Controller
 		public NumberPanelController NumberController;
 		private CoroutineHandle _currentTimerHandle;
 
-		public bool IsCountingDown =>
-			(Timing.CurrentCoroutine != default &&
-			 Timing.CurrentCoroutine == _currentTimerHandle);
+		public bool IsCountingDown => Timing.IsRunning(_currentTimerHandle);
 
 		private int mTimeLeft;
 

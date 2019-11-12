@@ -2,6 +2,7 @@
 using System.Linq;
 using Mahjong.Model;
 using Managers;
+using MEC;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
@@ -28,9 +29,10 @@ namespace PUNLobby.Room
 		private void Start()
 		{
 			CheckButtonForMaster();
+			Timing.RunCoroutine(UpdateUtil.EmulateUpdate(MyUpdate, this));
 		}
 
-		private void Update()
+		private void MyUpdate()
 		{
 			ShowSlots();
 		}
@@ -42,7 +44,7 @@ namespace PUNLobby.Room
 
 		public void SetPlayers(IList<Player> players)
 		{
-			this._players = players;
+			_players = players;
 		}
 
 		private void ShowSlots()

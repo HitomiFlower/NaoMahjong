@@ -17,8 +17,7 @@ namespace GamePlay.Client.Controller
 		private int _mBaseTime;
 		private int _mBonusTime;
 
-		public bool IsCountingDown =>
-			Timing.CurrentCoroutine != default && _currentTimerCoroutine != Timing.CurrentCoroutine;
+		public bool IsCountingDown => Timing.IsRunning(_currentTimerCoroutine);
 
 		/// <summary>
 		/// Starts count down with the given time, invoke callback when time expires.

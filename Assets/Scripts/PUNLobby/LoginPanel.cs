@@ -1,4 +1,5 @@
 ﻿using System;
+using Managers;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
@@ -18,6 +19,7 @@ namespace PUNLobby
 		{
 			var lastLoginName = SerializeUtility.LoadContentOrDefault(Application.persistentDataPath + LastLogin, "");
 			nameInputField.text = lastLoginName.Trim();
+			SoundManager.Instance.PlayBgm("Game_Afternoon");
 		}
 
 		public void Login()
