@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Managers;
 using Photon.Realtime;
 using UnityEngine;
 
@@ -28,7 +28,7 @@ namespace PUNLobby
 			infoPanel.gameObject.SetActive(false);
 		}
 
-		public void ChangeTo(RectTransform newPanel)
+		public void ChangeTo(RectTransform newPanel, BgmId bgmId = BgmId.Same)
 		{
 			if (currentPanel != null)
 			{
@@ -41,6 +41,11 @@ namespace PUNLobby
 			}
 
 			currentPanel = newPanel;
+
+			if (bgmId != BgmId.Same)
+			{
+				SoundManager.Instance.PlayBgm(bgmId);
+			}
 		}
 
 		public void ShowCreateRoomPanel()

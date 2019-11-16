@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using MEC;
 using MovementEffects;
+using Object = UnityEngine.Object;
 
 namespace Utils
 {
@@ -30,7 +32,7 @@ namespace Utils
 		/// </summary>
 		public static bool Play(this AudioSource audioSource, AudioClip audioClip = null, float volume = 1f)
 		{
-			if (audioClip == null || volume < 0f)
+			if (audioSource == null || audioClip == null || volume < 0f)
 			{
 				return false;
 			}
@@ -45,9 +47,10 @@ namespace Utils
 		public static IEnumerator<float> PlayWithFadeIn(this AudioSource audioSource,
 			AudioClip audioClip,
 			float targetVolume = 1f,
-			float duration = 0.1f)
+			float duration = 0.1f,
+			UnityAction compCallback = null)
 		{
-			if (targetVolume <= 0f || !audioSource.Play(audioClip, 0f))
+			if (targetVolume <= 0f || !audioSource.Play(audioClip, 1f))
 			{
 				yield break;
 			}
@@ -57,22 +60,14 @@ namespace Utils
 				Duration = duration,
 				RetrieveStart = (source, lastEnd) => source.volume,
 				RetrieveEnd = x => targetVolume,
-				OnUpdate = (source, value) => source.volume = value
+				OnUpdate = OnUpdateVolume,
+				OnDone = source => compCallback?.Invoke() 
 			};
 
 			Movement.Run(audioSource, fadeIn);
-
-//			while (audioSource.volume < targetVolume)
-//			{
-//				float tempVolume = audioSource.volume + (Timing.DeltaTime / duration);
-//
-//				audioSource.volume = Mathf.Min(tempVolume, targetVolume);
-//
-//				yield return Timing.WaitForOneFrame;
-//			}
 		}
 
-		public static IEnumerator<float> StopWithFadeOut(this AudioSource audioSource, float duration = 0.1f)
+		public static IEnumerator<float> StopWithFadeOut(this AudioSource audioSource, float duration = 0.1f, UnityAction compCallback = null)
 		{
 			if (!audioSource.isPlaying)
 			{
@@ -90,22 +85,23 @@ namespace Utils
 			{
 				Duration = duration,
 				RetrieveEnd = x => 0f,
-				OnUpdate = (source, value) => source.volume = value
+				OnUpdate = OnUpdateVolume
 			};
 
-			Movement.Run(audioSource, fadeOut, source => source.volume);
+			var sequence = new Sequence<AudioSource, float>()
+			{
+				RetrieveSequenceStart = source => source.volume,
+				Reference = audioSource,
+				OnComplete = source =>
+				{
+					source.Stop();
+					compCallback?.Invoke();
+				}
+			};
 			
-//			var sequence = new Sequence<AudioSource, float>();
-//			sequence.Reference = audioSource;
-//			sequence.Add(fadeOut);
-//
-//			while (audioSource.volume > 0f)
-//			{
-//				audioSource.volume -= Timing.DeltaTime / duration;
-//				yield return Timing.WaitForOneFrame;
-//			}
-			
-			audioSource.Stop();
+			sequence.Add(fadeOut);
+
+			Movement.Run(sequence);
 		}
 
 		public static IEnumerator<float> PlayWithCompCallBack(this AudioSource audioSource, AudioClip audioClip,
@@ -124,6 +120,21 @@ namespace Utils
 			}
 			
 			compCallback?.Invoke();
+		}
+
+		private static void OnUpdateVolume(AudioSource source, float value)
+		{
+			source.volume = Mathf.Clamp01(value);
+		}
+		
+		public static bool IsPlayingClip(this AudioSource source, string clipName)
+		{
+			return source.IsCurrentClip(clipName) && source.isPlaying;
+		}
+
+		public static bool IsCurrentClip(this AudioSource source, string clipName)
+		{
+			return source.clip != null && source.clip.name == clipName;
 		}
 		#endregion
 	}

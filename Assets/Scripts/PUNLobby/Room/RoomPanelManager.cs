@@ -29,7 +29,7 @@ namespace PUNLobby.Room
 		private void Start()
 		{
 			CheckButtonForMaster();
-			Timing.RunCoroutine(UpdateUtil.EmulateUpdate(MyUpdate, this));
+			Timing.RunCoroutine(UpdateUtil.EmulateUpdate(MyUpdate, this).CancelWith(gameObject));
 		}
 
 		private void MyUpdate()

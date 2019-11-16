@@ -19,11 +19,12 @@ namespace PUNLobby
 		{
 			var lastLoginName = SerializeUtility.LoadContentOrDefault(Application.persistentDataPath + LastLogin, "");
 			nameInputField.text = lastLoginName.Trim();
-			SoundManager.Instance.PlayBgm("Game_Afternoon");
+			SoundManager.Instance.PlayBgm(BgmId.Login);
 		}
 
 		public void Login()
 		{
+			SoundManager.Instance.PlaySe(SeId.Tick);
 			var launcher = Launcher.Instance;
 			var playerName = nameInputField.text.Trim();
 			if (string.IsNullOrEmpty(playerName))

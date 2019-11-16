@@ -44,7 +44,7 @@ namespace PUNLobby
 			}
 			else
 			{
-				PanelManager.ChangeTo(PanelManager.LobbyPanel);
+				PanelManager.ChangeTo(PanelManager.LobbyPanel, BgmId.Lobby);
 			}
 
 			_transitionManager = FindObjectOfType<SceneTransitionManager>();
@@ -79,17 +79,23 @@ namespace PUNLobby
 			PanelManager.ShowCreateRoomPanel();
 		}
 
+		public void LeftLobby()
+		{
+			PhotonNetwork.LeaveLobby();
+		}
+
 		internal void Connect(string playerName)
 		{
 			if (!PhotonNetwork.IsConnected)
 			{
 				PhotonNetwork.ConnectUsingSettings();
-				PanelManager.ChangeTo(PanelManager.LobbyPanel);
 			}
 			else
 			{
-				// todo -- already connected to photon server
+				PhotonNetwork.JoinLobby();
 			}
+			
+			PanelManager.ChangeTo(PanelManager.LobbyPanel, BgmId.Lobby);
 
 			PhotonNetwork.NickName = playerName;
 		}
