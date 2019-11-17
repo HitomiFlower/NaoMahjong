@@ -44,7 +44,7 @@ namespace PUNLobby
 
 			if (bgmId != BgmId.Same)
 			{
-				SoundManager.Instance.PlayBgm(bgmId);
+				AudioManager.Instance.PlayBgm(bgmId);
 			}
 		}
 
