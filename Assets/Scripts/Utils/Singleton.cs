@@ -54,10 +54,10 @@ namespace Utils
 			}
 		}
 
-		private void Awake()
-		{
-			CheckInstance();
-		}
+//		private void Awake()
+//		{
+//			CheckInstance();
+//		}
 
 		protected bool CheckInstance()
 		{

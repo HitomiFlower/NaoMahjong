@@ -40,7 +40,7 @@ namespace PUNLobby
 				PhotonNetwork.PhotonServerSettings.AppSettings.AppVersion = GameVersion;
 				// Connect to the photon master-server. We use the settings saved in PhotonServerSettings (a .asset file in this project)
 				// PhotonNetwork.ConnectUsingSettings();
-				PanelManager.ChangeTo(PanelManager.LoginPanel);
+				PanelManager.ChangeTo(PanelManager.LoginPanel, BgmId.Login);
 			}
 			else
 			{
@@ -171,7 +171,7 @@ namespace PUNLobby
 		public override void OnLeftLobby()
 		{
 			Debug.Log("OnLeftLobby");
-			PanelManager.ChangeTo(PanelManager.LoginPanel);
+			PanelManager.ChangeTo(PanelManager.LoginPanel, BgmId.Login);
 		}
 
 		public override void OnRoomListUpdate(List<RoomInfo> roomList)

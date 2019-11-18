@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Managers;
 using MEC;
+using PUNLobby.Room;
 using UnityEngine;
 
 namespace GamePlay.Client.Controller.GameState
@@ -28,6 +29,7 @@ namespace GamePlay.Client.Controller.GameState
 			transition.FadeOut();
 			yield return Timing.WaitForOneFrame;
 			// todo -- button for "back to lobby" or "back to room"
+			RoomLauncher.Instance.GameOver();
 		}
 
 		public override void OnClientStateExit()

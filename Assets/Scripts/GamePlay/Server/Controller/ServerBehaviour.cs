@@ -9,6 +9,7 @@ using PUNLobby;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
+using MEC;
 
 namespace GamePlay.Server.Controller
 {
@@ -57,9 +58,11 @@ namespace GamePlay.Server.Controller
 		{
 			if (!PhotonNetwork.IsMasterClient)
 				Destroy(gameObject);
+
+			Timing.RunCoroutine(UpdateUtil.EmulateUpdate(OnUpdate, this).CancelWith(gameObject), Segment.Update);
 		}
 
-		private void Update()
+		private void OnUpdate()
 		{
 			StateMachine.UpdateState();
 		}

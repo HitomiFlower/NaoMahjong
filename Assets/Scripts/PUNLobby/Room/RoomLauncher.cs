@@ -85,11 +85,28 @@ namespace PUNLobby.Room
 			PhotonNetwork.LoadLevel(mahjongScene);
 		}
 
+		public void GameOver()
+		{
+			Timing.RunCoroutine(GameOverCoroutine());
+		}
+
+		private IEnumerator<float> GameOverCoroutine()
+		{
+			yield return Timing.WaitForSeconds(1.25f);
+			PhotonNetwork.LoadLevel(lobbyScene);
+		}
+
 		[PunRPC]
 		public void RpcGameStart()
 		{
 			var transition = FindObjectOfType<SceneTransitionManager>();
 			transition.FadeOut();
+		}
+
+		[PunRPC]
+		public void RpcGameOver()
+		{
+
 		}
 	}
 }

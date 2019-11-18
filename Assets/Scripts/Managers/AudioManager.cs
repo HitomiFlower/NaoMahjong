@@ -399,7 +399,7 @@ namespace Managers
 		List<SoundEffect> sfxPool = new List<SoundEffect>();
 		// Background music managed by the AudioManager
 		static BackgroundMusic backgroundMusic;
-		// Audio source for both the current music and the next music if crossfade transition is active 
+		// Audio source for both the current music and the next music if crossfade transition is active
 		static AudioSource musicSource = null, crossfadeSource = null;
 		// Volume placehlder properties for the current music, sound effect, and the vol limit of the current music
 		static float currentMusicVol = 0, currentSfxVol = 0, musicVolCap = 0, savedPitch = 1f;
@@ -470,6 +470,7 @@ namespace Managers
 
 			// Make object persist throughout lifetime of application (including in between scene transitions)
 			DontDestroyOnLoad(this.gameObject);
+			Debug.Log("audio manager Initialized");
 		}
 
 		/// <summary>
@@ -477,6 +478,7 @@ namespace Managers
 		/// </summary>
 		void Awake()
 		{
+			Debug.Log(CheckInstance());
 			if (CheckInstance())
 			{
 				// Initialise the AudioManager
@@ -847,6 +849,14 @@ namespace Managers
 				clip = LoadClip(BgmPath + GetClipNameForBgm(bgmId), true);
 			}
 			
+			Timing.RunCoroutine(CoPlayBgm(clip, musicTransition, duration, volume));
+		}
+
+		private IEnumerator<float> CoPlayBgm(AudioClip clip, MusicTransition musicTransition = MusicTransition.CrossFade,
+			float duration = 1f, float volume = 1f)
+		{
+			yield return Timing.WaitUntilFalse(() => musicSource == null);
+
 			PlayBGM(clip, musicTransition, duration, volume);
 		}
 

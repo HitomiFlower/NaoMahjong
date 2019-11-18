@@ -19,7 +19,6 @@ namespace PUNLobby
 		{
 			var lastLoginName = SerializeUtility.LoadContentOrDefault(Application.persistentDataPath + LastLogin, "");
 			nameInputField.text = lastLoginName.Trim();
-			AudioManager.Instance.PlayBgm(BgmId.Login);
 		}
 
 		public void Login()
