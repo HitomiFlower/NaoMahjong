@@ -57,13 +57,15 @@ namespace GamePlay.Client.Controller
 			}
 
 			if (_mBonusTime > 0)
+			{
 				for (; _mBonusTime >= 0; _mBonusTime--)
 				{
 					SetTime(_mBaseTime, _mBonusTime);
 					yield return Timing.WaitForSeconds(1f);
 				}
+			}
 
-			callback.Invoke();
+			callback?.Invoke();
 			gameObject.SetActive(false);
 		}
 

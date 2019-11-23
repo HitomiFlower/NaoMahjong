@@ -12,7 +12,7 @@ namespace Utils
 		protected static bool alive = true;
 
 		/// <summary>
-		/// Current and only running instance of the AudioManager
+		/// Current and only running instance of the manager class
 		/// </summary>
 		public static T Instance
 		{
@@ -32,19 +32,15 @@ namespace Utils
 					return _instance;
 				}
 				
-				// Find from the list or hierrachy
+				// Find from the list or hierarchy
 				_instance = FindObjectOfType<T>();
 
 				// If none exists in scene
 				if (_instance == null)
 				{
-					// Lock so can't be used by another thread until release. Useful if two AudioManager instances were created simultaneosly
+					// Lock so can't be used by another thread until release. Useful if two instances were created simultaneosly
 					lock (_key)
 					{
-						//GameObject clone = new GameObject();
-						//clone.SetActive(false);
-						//clone.AddComponent<AudioManager>();
-
 						// Create a new gameobject and add the AudioManager component to the gameobject
 						_instance = new GameObject().AddComponent<T>();
 					}
@@ -53,11 +49,6 @@ namespace Utils
 				return _instance;
 			}
 		}
-
-//		private void Awake()
-//		{
-//			CheckInstance();
-//		}
 
 		protected bool CheckInstance()
 		{

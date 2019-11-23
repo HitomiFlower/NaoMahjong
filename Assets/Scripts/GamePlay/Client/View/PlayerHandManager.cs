@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Mahjong.Logic;
 using Mahjong.Model;
 using MEC;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 
 namespace GamePlay.Client.View
@@ -42,7 +44,12 @@ namespace GamePlay.Client.View
 			lastDrawInstance = lastDrawTransform.GetComponent<TileInstance>();
 		}
 
-		private void Update()
+		private void Start()
+		{
+			Timing.RunCoroutine(UpdateUtil.EmulateUpdate(OnUpdate, this).CancelWith(gameObject), Segment.Update);
+		}
+
+		private void OnUpdate()
 		{
 			if (!discarding)
 			{
@@ -104,6 +111,9 @@ namespace GamePlay.Client.View
 			discarding = false;
 		}
 
+		/// <summary>
+		/// 显示手牌
+		/// </summary>
 		public void OpenUp()
 		{
 			// Reveal hand tiles

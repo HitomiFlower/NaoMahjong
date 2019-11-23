@@ -3,6 +3,9 @@ using Common.Interfaces;
 
 namespace GamePlay.Client.Model
 {
+	/// <summary>
+	/// 本地自动控制的设定
+	/// </summary>
 	[System.Serializable]
 	public class ClientLocalSettings : ISubject<ClientLocalSettings>
 	{

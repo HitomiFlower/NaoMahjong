@@ -6,6 +6,12 @@ using UnityEngine;
 
 namespace GamePlay.Client.View
 {
+	/// <summary>
+	/// 牌桌手牌控制器
+	/// </summary>
+	/// <remarks>
+	/// 继承了IObserver，加入观察者清单之后可以被<c>UpdateStatus</c>更新状态
+	/// </remarks>
 	public class TableTilesManager : MonoBehaviour, IObserver<ClientRoundStatus>
 	{
 		public PlayerHandManager[] HandManagers;
@@ -79,6 +85,10 @@ namespace GamePlay.Client.View
 			System.Array.ForEach(HandManagers, manager => manager.StandUp());
 		}
 
+		/// <summary>
+		/// 显示指定玩家的手牌
+		/// </summary>
+		/// <param name="placeIndex">玩家序号，玩家自己序号为0，逆时针依次加1</param>
 		public void OpenUp(int placeIndex)
 		{
 			HandManagers[placeIndex].OpenUp();

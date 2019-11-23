@@ -4,6 +4,13 @@ using GamePlay.Client.Model;
 
 namespace GamePlay.Client.Controller.GameState
 {
+	/// <summary>
+	/// 继承了<c>IState</c>的客户端状态基类
+	/// 有controller的实例
+	/// </summary>
+	/// <remarks>
+	/// 除了从IState继承的状态函数，增加了ClientStateEnter和ClientStateExit方法
+	/// </remarks>
 	public abstract class ClientState : IState
 	{
 		public ClientRoundStatus CurrentRoundStatus;

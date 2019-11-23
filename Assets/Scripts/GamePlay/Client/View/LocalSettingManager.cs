@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 namespace GamePlay.Client.View
 {
+	/// <summary>
+	/// 本地自动控制的UI行为控制器
+	/// </summary>
 	public class LocalSettingManager : MonoBehaviour, IObserver<ClientLocalSettings>
 	{
 		private ClientLocalSettings LocalSetting;

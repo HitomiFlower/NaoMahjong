@@ -478,7 +478,6 @@ namespace Managers
 		/// </summary>
 		void Awake()
 		{
-			Debug.Log(CheckInstance());
 			if (CheckInstance())
 			{
 				// Initialise the AudioManager

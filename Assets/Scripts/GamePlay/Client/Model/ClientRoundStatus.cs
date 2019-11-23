@@ -7,6 +7,9 @@ using UnityEngine;
 
 namespace GamePlay.Client.Model
 {
+	/// <summary>
+	/// 客户端玩家当前回合状态
+	/// </summary>
 	[System.Serializable]
 	public class ClientRoundStatus : ISubject<ClientRoundStatus>
 	{
@@ -502,6 +505,9 @@ namespace GamePlay.Client.Model
 			observers.Remove(observer);
 		}
 
+		/// <summary>
+		/// 执行列表上的被观察者的<c>UpdateStatus</c>方法
+		/// </summary>
 		public void NotifyObservers()
 		{
 			foreach (var observer in observers)
